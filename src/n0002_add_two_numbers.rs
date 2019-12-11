@@ -26,45 +26,42 @@ impl Solution {
         l1: Option<Box<ListNode>>,
         l2: Option<Box<ListNode>>,
     ) -> Option<Box<ListNode>> {
-        let (mut l1, mut l2) = (l1, l2);
-        let mut dummy_head = Some(Box::new(ListNode::new(0)));
-        let mut tail = &mut dummy_head;
-        let (mut l1_end, mut l2_end, mut overflow) = (false, false, false);
-        loop {
-            let lhs = match l1 {
-                Some(node) => {
-                    l1 = node.next;
-                    node.val
-                }
-                None => {
-                    l1_end = true;
-                    0
-                }
-            };
-            let rhs = match l2 {
-                Some(node) => {
-                    l2 = node.next;
-                    node.val
-                }
-                None => {
-                    l2_end = true;
-                    0
-                }
-            };
-            // if l1, l2 end and there is not overflow from previous operation, return the result
-            if l1_end && l2_end && !overflow {
-                break dummy_head.unwrap().next;
-            }
-            let sum = lhs + rhs + if overflow { 1 } else { 0 };
-            let sum = if sum >= 10 {
-                overflow = true;
-                sum - 10
-            } else {
-                overflow = false;
-                sum
-            };
-            tail.as_mut().unwrap().next = Some(Box::new(ListNode::new(sum)));
-            tail = &mut tail.as_mut().unwrap().next
+        Solution::add_two(l1, l2, false)
+    }
+
+    fn get_node_by_two(l1: Box<ListNode>, l2: Box<ListNode>, sup: bool) -> Option<Box<ListNode>> {
+        let value = if sup {
+            l1.val + l2.val + 1
+        } else {
+            l1.val + l2.val
+        };
+        let sup = value / 10 > 0;
+        let value = value % 10;
+        let mut node = ListNode::new(value);
+        node.next = Solution::add_two(l1.next, l2.next, sup);
+        Some(Box::new(node))
+    }
+
+    fn get_node_by_one(l: Box<ListNode>, sup: bool) -> Option<Box<ListNode>> {
+        let value = if sup { l.val + 1 } else { l.val };
+        let sup = value / 10 > 0;
+        let value = value % 10;
+        let mut node = ListNode::new(value);
+        node.next = Solution::add_two(l.next, None, sup);
+        Some(Box::new(node))
+    }
+
+    fn add_two(
+        l1: Option<Box<ListNode>>,
+        l2: Option<Box<ListNode>>,
+        sup: bool,
+    ) -> Option<Box<ListNode>> {
+        match (l1, l2, sup) {
+            (Some(l1), Some(l2), _) => Solution::get_node_by_two(l1, l2, sup),
+            (Some(l1), None, _) => Solution::get_node_by_one(l1, sup),
+            (None, Some(l2), _) => Solution::get_node_by_one(l2, sup),
+            (None, None, true) => Some(Box::new(ListNode::new(1))),
+            (None, None, false) => None,
         }
     }
 }
