@@ -1,3 +1,5 @@
+use std::collections::HashSet;
+
 /**
  * [217] Contains Duplicate
  *
@@ -33,15 +35,17 @@ impl Solution {
         if nums.is_empty() {
             return false;
         }
-        let mut nums = nums;
-        nums.sort_unstable();
-        let mut prev = nums[0];
-        for i in 1..nums.len() {
-            if nums[i] == prev {
-                return true;
+
+        let mut s: HashSet<i32> = HashSet::new();
+        for n in nums.iter() {
+            match s.contains(n) {
+                true => return true,
+                false => {
+                    s.insert(*n);
+                }
             }
-            prev = nums[i]
         }
+
         false
     }
 }

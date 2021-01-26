@@ -22,14 +22,15 @@ use super::util::linked_list::{to_list, ListNode};
 
 impl Solution {
     pub fn reverse_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
-        let mut curr = head;
-        let mut next = None;
-        while let Some(mut inner) = curr {
-            curr = inner.next.take();
-            inner.next = next;
-            next = Some(inner);
+        let mut now = head;
+        let mut prev = None;
+        while let Some(mut cur) = now {
+            now = cur.next.take();
+
+            cur.next = prev;
+            prev = Some(cur);
         }
-        next
+        prev
     }
 }
 

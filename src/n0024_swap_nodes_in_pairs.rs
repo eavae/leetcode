@@ -26,22 +26,23 @@ impl Solution {
         let mut dummy_head = Some(Box::new(ListNode { val: 0, next: head }));
         let mut head = dummy_head.as_mut();
         loop {
-            let mut left = head.as_mut().unwrap().next.take();
-            if left.is_none() {
+            let mut lh = head.as_mut().unwrap().next.take();
+            if lh.is_none() {
                 break;
             }
-            let mut right = left.as_mut().unwrap().next.take();
-            // handle the un-paired one, e.g. [1, 2, 3] -> [2, 1, 3], 3 is un-paired
-            if right.is_none() {
-                head.as_mut().unwrap().next = left;
+            let mut rh = lh.as_mut().unwrap().next.take();
+
+            if rh.is_none() {
+                head.as_mut().unwrap().next = lh;
                 break;
             }
-            let mut next = right.as_mut().unwrap().next.take();
-            // BEFORE: head -> left -> right -> next
-            // AFTER: head -> right -> left -> next
-            left.as_mut().unwrap().next = next;
-            right.as_mut().unwrap().next = left;
-            head.as_mut().unwrap().next = right;
+
+            let mut next = rh.as_mut().unwrap().next.take();
+
+            lh.as_mut().unwrap().next = next;
+            rh.as_mut().unwrap().next = lh;
+            head.as_mut().unwrap().next = rh;
+
             head = head.unwrap().next.as_mut().unwrap().next.as_mut();
         }
         dummy_head.unwrap().next

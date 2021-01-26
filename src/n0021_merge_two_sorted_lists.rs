@@ -11,48 +11,53 @@
  *
  */
 pub struct Solution {}
+
 use super::util::linked_list::{to_list, ListNode};
 
 // submission codes start here
 
-// recursive will be much easier to understand
+use std::mem::replace;
 impl Solution {
     pub fn merge_two_lists(
         l1: Option<Box<ListNode>>,
         l2: Option<Box<ListNode>>,
     ) -> Option<Box<ListNode>> {
         let mut dummy_head = Some(Box::new(ListNode { val: 0, next: None }));
-        let mut head = &mut dummy_head;
-        let (mut l1, mut l2) = (l1, l2);
-        while l1.is_some() || l2.is_some() {
-            if l1.is_none() {
-                head.as_mut().unwrap().next = l2;
-                break;
-            } else if l2.is_none() {
-                head.as_mut().unwrap().next = l1;
-                break;
-            }
-            let next = if l1.as_ref().unwrap().val < l2.as_ref().unwrap().val {
-                let (origin, next) = Solution::take_head(l1);
-                l1 = origin;
-                next
-            } else {
-                let (origin, next) = Solution::take_head(l2);
-                l2 = origin;
-                next
-            };
-            head.as_mut().unwrap().next = next;
-            head = &mut head.as_mut().unwrap().next;
-        }
-        dummy_head.unwrap().next
-    }
+        let mut prev = &mut dummy_head;
+        let mut lh = &l1;
+        let mut rh = &l2;
 
-    #[inline(always)]
-    fn take_head(mut l: Option<Box<ListNode>>) -> (Option<Box<ListNode>>, Option<Box<ListNode>>) {
-        let l_next = l.as_mut().unwrap().next.take();
-        let next = l.take();
-        l = l_next;
-        (l, next)
+        while lh.is_some() || rh.is_some() {
+            let cur = match (lh, rh) {
+                (Some(a), Some(b)) => {
+                    if a.val > b.val {
+                        replace(&mut rh, &b.next);
+                        Some(ListNode::new(b.val))
+                    } else {
+                        replace(&mut lh, &a.next);
+                        Some(ListNode::new(a.val))
+                    }
+                }
+                (Some(a), None) => {
+                    replace(&mut lh, &a.next);
+                    Some(ListNode::new(a.val))
+                }
+                (None, Some(b)) => {
+                    replace(&mut rh, &b.next);
+                    Some(ListNode::new(b.val))
+                }
+                (_, _) => None,
+            };
+
+            if let Some(prev_box) = prev {
+                if let Some(cur) = cur {
+                    replace(&mut prev_box.next, Some(Box::new(cur)));
+                }
+                prev = &mut prev_box.next;
+            }
+        }
+
+        dummy_head.unwrap().next
     }
 }
 

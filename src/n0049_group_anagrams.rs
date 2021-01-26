@@ -31,12 +31,16 @@ impl Solution {
     pub fn group_anagrams(strs: Vec<String>) -> Vec<Vec<String>> {
         let mut map = HashMap::new();
         for s in strs.into_iter() {
+            // 26个字母
             let mut key = [0; 26];
+            // 将字母映射为，字母->次数
             for ch in s.chars() {
                 key[(ch as u32 - 'a' as u32) as usize] += 1;
             }
+            // 将 [字母->次数] 作为key，保存在map中。相同字母组成的单词的 [字母->次数]的数组是一样的
             map.entry(key).or_insert(Vec::new()).push(s);
         }
+        // 将map所有的值返回
         map.into_iter().map(|(_, v)| v).collect()
     }
 }

@@ -23,13 +23,14 @@ pub struct Solution {}
 use std::collections::HashMap;
 impl Solution {
     pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
-        let mut m = HashMap::with_capacity(nums.len());
-        for (index, value) in nums.iter().enumerate() {
-            match m.get(&(target - value)) {
+        // key: number, value: index
+        let mut map: HashMap<i32, i32> = HashMap::with_capacity(nums.len());
+        for (i, n) in nums.iter().enumerate() {
+            match map.get(&(target - *n)) {
+                Some(&another_index) => return vec![another_index, i as i32],
                 None => {
-                    m.insert(value, index);
+                    map.insert(*n, i as i32);
                 }
-                Some(matched_index) => return vec![*matched_index as i32, index as i32],
             }
         }
         vec![]
