@@ -55,26 +55,29 @@ pub struct Solution {}
 impl Solution {
     pub fn is_valid(s: String) -> bool {
         let mut stack: Vec<char> = Vec::new();
-        for ch in s.chars().into_iter() {
+        for cur in s.chars().into_iter() {
             match stack.last() {
                 None => {}
-                Some(&last) => {
-                    if Solution::pair(last, ch) {
+                Some(&prev) => {
+                    if Solution::pair(prev, cur) {
                         stack.pop();
                         continue;
                     }
                 }
             }
-            stack.push(ch);
+            stack.push(cur);
         }
         stack.is_empty()
     }
 
     #[inline(always)]
     fn pair(open: char, close: char) -> bool {
-        (open == '{' && close == '}')
-            || (open == '(' && close == ')')
-            || (open == '[' && close == ']')
+        match (open, close) {
+            ('{', '}') => true,
+            ('(', ')') => true,
+            ('[', ']') => true,
+            (_) => false,
+        }
     }
 }
 
