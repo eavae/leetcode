@@ -236,6 +236,7 @@ mod n0313_super_ugly_number;
 mod n0344_reverse_string;
 mod n0389_find_the_difference;
 mod n0560_subarray_sum;
+mod n0622_my_circular_queue;
 mod n0792_binary_search;
 mod n0933_recent_counter;
 mod n1009_pancake_sorting;
