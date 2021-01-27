@@ -244,6 +244,7 @@ mod n0692_top_k_frequent;
 mod n0703_kth_largest;
 mod n0792_binary_search;
 mod n0933_recent_counter;
+mod n0938_range_sum_bst;
 mod n1009_pancake_sorting;
 mod n1013_fibonacci_number;
 mod n1046_last_stone_weight;
