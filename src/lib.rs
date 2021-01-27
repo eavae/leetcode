@@ -239,6 +239,7 @@ mod n0394_decode_string;
 mod n0560_subarray_sum;
 mod n0622_my_circular_queue;
 mod n0641_my_circular_deque;
+mod n0692_top_k_frequent;
 mod n0703_kth_largest;
 mod n0792_binary_search;
 mod n0933_recent_counter;
