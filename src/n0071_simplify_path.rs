@@ -59,6 +59,33 @@ pub struct Solution {}
 
 // submission codes start here
 
+// impl Solution {
+//     pub fn simplify_path(path: String) -> String {
+//         let mut stack = Vec::new();
+//         for s in path.split('/') {
+//             match s {
+//                 "." => {}
+//                 "/" => {}
+//                 "" => {}
+//                 ".." => {
+//                     stack.pop();
+//                 }
+//                 _ => stack.push(s),
+//             }
+//         }
+//         let mut res = String::new();
+//         for s in stack {
+//             res.push('/');
+//             res.push_str(s);
+//         }
+//         if res.len() > 0 {
+//             res
+//         } else {
+//             "/".to_owned()
+//         }
+//     }
+// }
+
 impl Solution {
     pub fn simplify_path(path: String) -> String {
         let mut stack = Vec::new();
@@ -73,16 +100,9 @@ impl Solution {
                 _ => stack.push(s),
             }
         }
-        let mut res = String::new();
-        for s in stack {
-            res.push('/');
-            res.push_str(s);
-        }
-        if res.len() > 0 {
-            res
-        } else {
-            "/".to_owned()
-        }
+
+        let mut res = stack.join("/");
+        format!("/{}", res)
     }
 }
 

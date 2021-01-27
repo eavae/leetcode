@@ -52,30 +52,34 @@ impl MyQueue {
         }
     }
 
+    fn in_to_out(&mut self) {
+        if (self.vec2.is_empty()) {
+            while let Some(v) = self.vec1.last() {
+                self.vec2.push(self.vec1.pop().unwrap());
+            }
+        }
+    }
+
     /** Push element x to the back of queue. */
     fn push(&mut self, x: i32) {
-        while let Some(v) = self.vec1.pop() {
-            self.vec2.push(v);
-        }
-        self.vec2.push(x);
-        while let Some(v) = self.vec2.pop() {
-            self.vec1.push(v);
-        }
+        self.vec1.push(x);
     }
 
     /** Removes the element from in front of queue and returns that element. */
     fn pop(&mut self) -> i32 {
-        self.vec1.pop().unwrap()
+        self.in_to_out();
+        self.vec2.pop().unwrap()
     }
 
     /** Get the front element. */
-    fn peek(&self) -> i32 {
-        *self.vec1.last().unwrap()
+    fn peek(&mut self) -> i32 {
+        self.in_to_out();
+        *self.vec2.last().unwrap()
     }
 
     /** Returns whether the queue is empty. */
     fn empty(&self) -> bool {
-        self.vec1.is_empty()
+        self.vec1.is_empty() && self.vec2.is_empty()
     }
 }
 
