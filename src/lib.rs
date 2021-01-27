@@ -244,5 +244,6 @@ mod n0792_binary_search;
 mod n0933_recent_counter;
 mod n1009_pancake_sorting;
 mod n1013_fibonacci_number;
+mod n1046_last_stone_weight;
 mod n1071_binary_prefix_divisible_by_5;
 mod n1127_last_stone_weight;
