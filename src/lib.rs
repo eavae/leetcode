@@ -235,6 +235,7 @@ mod n0312_burst_balloons;
 mod n0313_super_ugly_number;
 mod n0344_reverse_string;
 mod n0389_find_the_difference;
+mod n0394_decode_string;
 mod n0560_subarray_sum;
 mod n0622_my_circular_queue;
 mod n0641_my_circular_deque;
